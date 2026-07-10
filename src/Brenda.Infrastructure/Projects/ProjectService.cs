@@ -193,10 +193,12 @@ public sealed class ProjectService : IProjectService
         return blend is null ? null : Path.GetRelativePath(folderPath, blend);
     }
 
+    private static readonly HashSet<char> InvalidFolderNameChars = new(
+        Path.GetInvalidFileNameChars().Concat(new[] { ':', '*', '?', '"', '<', '>', '|', '\\' }));
+
     internal static string SanitizeFolderName(string name)
     {
-        var invalid = Path.GetInvalidFileNameChars();
-        var sanitized = new string(name.Trim().Select(c => invalid.Contains(c) ? '_' : c).ToArray());
+        var sanitized = new string(name.Trim().Select(c => InvalidFolderNameChars.Contains(c) ? '_' : c).ToArray());
         return sanitized.Length == 0 ? "Project" : sanitized;
     }
 }
