@@ -1,0 +1,49 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Brenda.App.ViewModels"
+             x:Class="Brenda.App.Views.SettingsView"
+             x:DataType="vm:SettingsViewModel">
+
+    <ScrollViewer>
+        <StackPanel Margin="24" Spacing="16" MaxWidth="720" HorizontalAlignment="Left">
+            <StackPanel Spacing="2">
+                <TextBlock Text="Settings" Classes="h1"/>
+                <TextBlock Text="Application information and preferences." Classes="muted"/>
+            </StackPanel>
+
+            <Border Classes="card">
+                <StackPanel Spacing="8">
+                    <TextBlock Text="About" Classes="h2"/>
+                    <TextBlock Text="{Binding AppVersion, StringFormat='Brenda v{0} — The Blender Hub'}"/>
+                    <TextBlock Text="Open source under the MIT license." Classes="muted"/>
+                </StackPanel>
+            </Border>
+
+            <Border Classes="card">
+                <StackPanel Spacing="8">
+                    <TextBlock Text="Updates" Classes="h2"/>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button Content="Check for Updates" Command="{Binding CheckForUpdatesCommand}"/>
+                        <Button Content="Download &amp; Restart" Classes="accent"
+                                Command="{Binding ApplyUpdateCommand}"
+                                IsVisible="{Binding UpdateAvailable}"/>
+                    </StackPanel>
+                    <TextBlock Text="{Binding UpdateStatus}" Classes="muted"/>
+                </StackPanel>
+            </Border>
+
+            <Border Classes="card">
+                <StackPanel Spacing="8">
+                    <TextBlock Text="Storage" Classes="h2"/>
+                    <TextBlock Text="{Binding DataDirectory, StringFormat='Data: {0}'}" Classes="muted"/>
+                    <TextBlock Text="{Binding VersionsDirectory, StringFormat='Blender installs: {0}'}" Classes="muted"/>
+                    <TextBlock Text="{Binding TemplatesDirectory, StringFormat='User templates: {0}'}" Classes="muted"/>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button Content="Open Data Folder" Command="{Binding OpenDataFolderCommand}"/>
+                        <Button Content="Open Templates Folder" Command="{Binding OpenTemplatesFolderCommand}"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

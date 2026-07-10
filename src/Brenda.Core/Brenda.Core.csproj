@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Domain models and service abstractions for Brenda. No external dependencies.</Description>
+  </PropertyGroup>
+
+</Project>

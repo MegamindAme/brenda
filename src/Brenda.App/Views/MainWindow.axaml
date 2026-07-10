@@ -1,0 +1,57 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:Brenda.App.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="1100" d:DesignHeight="700"
+        x:Class="Brenda.App.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="Brenda — The Blender Hub"
+        Width="1100" Height="700"
+        MinWidth="800" MinHeight="520"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid ColumnDefinitions="220,*">
+
+        <!-- Sidebar -->
+        <Border Grid.Column="0"
+                Background="{DynamicResource LayerFillColorDefaultBrush}"
+                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                BorderThickness="0,0,1,0">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Top" Margin="20,24,20,16" Spacing="2">
+                    <TextBlock Text="Brenda" FontSize="22" FontWeight="Bold"/>
+                    <TextBlock Text="The Blender Hub" Classes="muted"/>
+                </StackPanel>
+
+                <TextBlock DockPanel.Dock="Bottom"
+                           Margin="20,8,20,16"
+                           Classes="muted"
+                           Text="v0.1.0 — open source"/>
+
+                <ListBox ItemsSource="{Binding NavigationItems}"
+                         SelectedItem="{Binding SelectedItem}"
+                         Background="Transparent"
+                         Margin="8,0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate x:DataType="vm:NavigationItem">
+                            <StackPanel Orientation="Horizontal" Spacing="12" Margin="8,6">
+                                <TextBlock Text="{Binding Glyph}" FontSize="16" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding Title}" FontSize="14" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <ListBox.Styles>
+                        <Style Selector="ListBoxItem">
+                            <Setter Property="CornerRadius" Value="6"/>
+                            <Setter Property="Margin" Value="0,2"/>
+                        </Style>
+                    </ListBox.Styles>
+                </ListBox>
+            </DockPanel>
+        </Border>
+
+        <!-- Content -->
+        <ContentControl Grid.Column="1" Content="{Binding CurrentPage}"/>
+    </Grid>
+</Window>

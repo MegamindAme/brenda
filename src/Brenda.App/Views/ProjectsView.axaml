@@ -1,0 +1,108 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Brenda.App.ViewModels"
+             xmlns:models="using:Brenda.Core.Models"
+             x:Class="Brenda.App.Views.ProjectsView"
+             x:DataType="vm:ProjectsViewModel"
+             x:Name="Root">
+
+    <DockPanel Margin="24">
+
+        <!-- Header -->
+        <Grid DockPanel.Dock="Top" ColumnDefinitions="*,Auto,Auto" Margin="0,0,0,16">
+            <StackPanel Grid.Column="0" Spacing="2">
+                <TextBlock Text="Projects" Classes="h1"/>
+                <TextBlock Text="All your Blender projects in one place." Classes="muted"/>
+            </StackPanel>
+            <Button Grid.Column="1" Content="Import Folder..." Command="{Binding ImportCommand}" Margin="0,0,8,0"/>
+            <Button Grid.Column="2" Content="+ New Project" Classes="accent" Command="{Binding ToggleCreatePanelCommand}"/>
+        </Grid>
+
+        <!-- New project panel -->
+        <Border DockPanel.Dock="Top" Classes="card" Margin="0,0,0,16"
+                IsVisible="{Binding IsCreatePanelOpen}">
+            <StackPanel Spacing="12">
+                <TextBlock Text="New Project" Classes="h2"/>
+                <Grid ColumnDefinitions="*,*,*">
+                    <StackPanel Grid.Column="0" Spacing="4">
+                        <TextBlock Text="Name" Classes="muted"/>
+                        <TextBox Text="{Binding NewProjectName}" Watermark="My Awesome Project"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Spacing="4" Margin="12,0,0,0">
+                        <TextBlock Text="Location" Classes="muted"/>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <TextBox Grid.Column="0" Text="{Binding NewProjectLocation}" Watermark="Parent folder..." IsReadOnly="True"/>
+                            <Button Grid.Column="1" Content="Browse..." Command="{Binding PickLocationCommand}" Margin="8,0,0,0"/>
+                        </Grid>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Spacing="4" Margin="12,0,0,0">
+                        <TextBlock Text="Template" Classes="muted"/>
+                        <ComboBox ItemsSource="{Binding Templates}"
+                                  SelectedItem="{Binding SelectedTemplate}"
+                                  HorizontalAlignment="Stretch">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate x:DataType="models:ProjectTemplate">
+                                    <TextBlock Text="{Binding Name}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+                </Grid>
+                <TextBlock Text="{Binding SelectedTemplate.Description, FallbackValue=''}" Classes="muted"/>
+                <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Right">
+                    <Button Content="Cancel" Command="{Binding ToggleCreatePanelCommand}"/>
+                    <Button Content="Create Project" Classes="accent" Command="{Binding CreateCommand}"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- Empty state -->
+        <StackPanel IsVisible="{Binding !Projects.Count}"
+                    VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="8">
+            <TextBlock Text="📂" FontSize="48" HorizontalAlignment="Center"/>
+            <TextBlock Text="No projects yet" Classes="h2" HorizontalAlignment="Center"/>
+            <TextBlock Text="Create a new project from a template or import an existing folder."
+                       Classes="muted" HorizontalAlignment="Center"/>
+        </StackPanel>
+
+        <!-- Project list -->
+        <ScrollViewer IsVisible="{Binding Projects.Count}">
+            <ItemsControl ItemsSource="{Binding Projects}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="models:Project">
+                        <Border Classes="card" Margin="0,0,0,10">
+                            <Grid ColumnDefinitions="Auto,*,Auto">
+                                <TextBlock Grid.Column="0" Text="🗔" FontSize="28"
+                                           VerticalAlignment="Center" Margin="0,0,16,0"/>
+                                <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Name}" Classes="h2"/>
+                                    <TextBlock Text="{Binding FolderPath}" Classes="muted"/>
+                                    <StackPanel Orientation="Horizontal" Spacing="12">
+                                        <TextBlock Classes="muted"
+                                                   IsVisible="{Binding TemplateName, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                                   Text="{Binding TemplateName, StringFormat='Template: {0}'}"/>
+                                        <TextBlock Classes="muted"
+                                                   IsVisible="{Binding PinnedBlenderVersion, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                                   Text="{Binding PinnedBlenderVersion.Version, FallbackValue='', StringFormat='Blender {0}'}"/>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                                    <Button Content="Open"
+                                            Classes="accent"
+                                            Command="{Binding #Root.((vm:ProjectsViewModel)DataContext).OpenCommand}"
+                                            CommandParameter="{Binding}"/>
+                                    <Button Content="Folder"
+                                            Command="{Binding #Root.((vm:ProjectsViewModel)DataContext).OpenFolderCommand}"
+                                            CommandParameter="{Binding}"/>
+                                    <Button Content="Remove"
+                                            Command="{Binding #Root.((vm:ProjectsViewModel)DataContext).RemoveCommand}"
+                                            CommandParameter="{Binding}"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </DockPanel>
+</UserControl>

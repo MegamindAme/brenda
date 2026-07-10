@@ -1,0 +1,53 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  pack:
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            rid: win-x64
+            script: ./build/pack.ps1
+          - os: ubuntu-latest
+            rid: linux-x64
+            script: ./build/pack.sh
+          - os: macos-latest
+            rid: osx-arm64
+            script: ./build/pack.sh
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Extract version from tag
+        id: version
+        shell: bash
+        run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Pack (Windows)
+        if: runner.os == 'Windows'
+        run: ./build/pack.ps1 -Version ${{ steps.version.outputs.version }} -Rid ${{ matrix.rid }}
+
+      - name: Pack (Unix)
+        if: runner.os != 'Windows'
+        run: |
+          chmod +x ./build/pack.sh
+          ./build/pack.sh ${{ steps.version.outputs.version }} ${{ matrix.rid }}
+
+      - name: Upload to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: releases/*
+          draft: true
+          fail_on_unmatched_files: true

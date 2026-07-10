@@ -1,0 +1,15 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Brenda.App.ViewModels"
+             x:Class="Brenda.App.Views.ComingSoonView"
+             x:DataType="vm:ComingSoonViewModel">
+
+    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="12" MaxWidth="420">
+        <TextBlock Text="🚧" FontSize="48" HorizontalAlignment="Center"/>
+        <TextBlock Text="{Binding Title}" Classes="h1" HorizontalAlignment="Center"/>
+        <TextBlock Text="{Binding Description}"
+                   Classes="muted"
+                   TextWrapping="Wrap"
+                   TextAlignment="Center"/>
+    </StackPanel>
+</UserControl>

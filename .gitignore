@@ -1,0 +1,63 @@
+## .NET / Visual Studio
+
+# Build output
+bin/
+obj/
+out/
+[Bb]uild/
+
+# NuGet
+/packages/
+*.nupkg
+*.snupkg
+project.lock.json
+project.assets.json
+*.nuget.props
+*.nuget.targets
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.cache
+*.ilk
+*.pdb
+*.exe
+*.dll
+*.exe.config
+
+# Visual Studio Code
+.vscode/
+
+# JetBrains Rider
+.idea/
+riderModule.iml
+/_ReSharper.Caches/
+
+# Build & packaging output
+/publish/
+/releases/
+/artifacts/
+
+# Test & coverage
+[Tt]est[Rr]esult*/
+*.trx
+coverage/
+*.coverage
+*.coveragexml
+
+# Local databases
+*.db
+*.db-shm
+*.db-wal
+design-time.db
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
