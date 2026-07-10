@@ -1,0 +1,50 @@
+name: Bug report
+description: Report a bug in Brenda
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Describe the bug and what you expected to happen.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Provide a minimal set of steps to reproduce the issue.
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Brenda version
+      description: Which version or commit are you running?
+    validations:
+      required: false
+
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      description: Windows/macOS/Linux and version.
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: |
+        Paste logs from `%APPDATA%/Brenda/logs/` (Windows) or
+        `~/.config/Brenda/logs/` (Linux/macOS).
+      render: shell

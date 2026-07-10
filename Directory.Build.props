@@ -8,5 +8,8 @@
     <Authors>Brenda Contributors</Authors>
     <Product>Brenda: The Blender Hub</Product>
     <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/MegamindAme/brenda</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/MegamindAme/brenda</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 </Project>

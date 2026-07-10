@@ -6,8 +6,7 @@ namespace Brenda.App.Services;
 
 public sealed class UpdateService : IUpdateService
 {
-    // TODO: point this at the real repository once published.
-    private const string RepositoryUrl = "https://github.com/brenda-hub/brenda";
+    private const string RepositoryUrl = "https://github.com/MegamindAme/brenda";
 
     private readonly ILogger<UpdateService> _logger;
     private UpdateInfo? _pendingUpdate;

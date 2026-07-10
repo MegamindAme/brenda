@@ -35,8 +35,8 @@ Download the installer for your OS from the
 Requirements: [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 
 ```bash
-git clone <repo-url>
-cd Brenda
+git clone https://github.com/MegamindAme/brenda.git
+cd brenda
 dotnet run --project src/Brenda.App
 ```
 
